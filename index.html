@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Essam — Identity Design</title>
+  <meta name="description" content="Logo and identity design for self-improvement brands built on discipline, purpose and brotherhood." />
+  <meta name="theme-color" content="#070707" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23070707'/%3E%3Cpath d='M64 40h72M64 160h72M72 48h56l-28 52 28 52H72l28-52z' fill='none' stroke='%23C9A45C' stroke-width='8'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@700&family=Space+Mono&family=Archivo:wdth,wght@125,400;125,800&family=Cinzel:wght@700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            void: '#070707',
+            coal: '#0E0E0D',
+            iron: '#1A1916',
+            gold: { DEFAULT: '#C9A45C', soft: '#E3C88F', deep: '#8C6E36' },
+            bone: '#ECE6DA',
+            ash: '#8E887D',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          letterSpacing: { brutal: '0.35em' },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { background: #070707; }
+    body { -webkit-font-smoothing: antialiased; }
+
+    /* Film grain */
+    .grain::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: .06;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .gold-text {
+      background: linear-gradient(180deg, #F1DDB0 0%, #C9A45C 55%, #8C6E36 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hairline { background: linear-gradient(90deg, transparent, rgba(201,164,92,.55), transparent); height: 1px; }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+    .reveal.is-in { opacity: 1; transform: none; }
+
+    /* Logos draw themselves in when their card enters the viewport */
+    .mark .draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2.2s cubic-bezier(.65,0,.35,1); }
+    .mark .fill-in { opacity: 0; transition: opacity 1s ease 1.4s; }
+    .is-in .mark .draw { stroke-dashoffset: 0; }
+    .is-in .mark .fill-in { opacity: 1; }
+
+    .card { transition: border-color .5s, transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
+    .card:hover { border-color: rgba(201,164,92,.45); transform: translateY(-4px); box-shadow: 0 30px 80px -40px rgba(201,164,92,.35); }
+    .card .halo { opacity: 0; transition: opacity .6s; }
+    .card:hover .halo { opacity: 1; }
+
+    .stage-logo { opacity: 0; transform: scale(.94); transition: opacity 1.2s ease .2s, transform 1.4s cubic-bezier(.2,.7,.2,1) .2s; }
+    .is-in .stage-logo { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .mark .draw, .mark .fill-in, .card, .stage-logo { transition: none !important; }
+      .stage-logo { opacity: 1; transform: none; }
+      .reveal { opacity: 1; transform: none; }
+      .mark .draw { stroke-dashoffset: 0; }
+      .mark .fill-in { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body class="grain bg-void text-bone font-sans selection:bg-gold selection:text-void">
+
+  <!-- Logo library: each mark is drawn once and reused everywhere with <use> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="gold-foil" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#F1DDB0"/>
+        <stop offset=".55" stop-color="#C9A45C"/>
+        <stop offset="1" stop-color="#8C6E36"/>
+      </linearGradient>
+      <linearGradient id="gold-foil-mark" gradientUnits="userSpaceOnUse" x1="0" y1="28" x2="0" y2="182">
+        <stop offset="0" stop-color="#F1DDB0"/>
+        <stop offset=".55" stop-color="#C9A45C"/>
+        <stop offset="1" stop-color="#8C6E36"/>
+      </linearGradient>
+      <!-- Tally: the closing strike cuts through the four counted days -->
+      <mask id="tally-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+        <rect width="200" height="200" fill="#fff"/>
+        <path d="M34 154L166 76" stroke="#000" stroke-width="30"/>
+      </mask>
+      <!-- Vessel: the handle window is a V-taper torso; flat base -->
+      <mask id="vessel-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+        <rect width="200" height="200" fill="#fff"/>
+        <path d="M68 50H132C138 50 141 55 138 60L114 98H86L62 60C59 55 62 50 68 50Z" fill="#000"/>
+        <rect y="180" width="200" height="30" fill="#000"/>
+      </mask>
+      <!-- Phalanx: side shields sit behind the centre one; spears behind all three -->
+      <mask id="phalanx-side" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+        <rect width="200" height="200" fill="#fff"/>
+        <circle cx="100" cy="116" r="38" fill="#000"/>
+        <circle cx="54" cy="116" r="24" fill="none" stroke="#000" stroke-width="3"/>
+        <circle cx="146" cy="116" r="24" fill="none" stroke="#000" stroke-width="3"/>
+      </mask>
+      <mask id="phalanx-mid" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+        <rect width="200" height="200" fill="#fff"/>
+        <circle cx="100" cy="116" r="27" fill="none" stroke="#000" stroke-width="3"/>
+        <path d="M100 94L117 134H108L100 113L92 134H83Z" fill="#000"/>
+      </mask>
+      <mask id="phalanx-spear" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+        <rect width="200" height="200" fill="#fff"/>
+        <circle cx="100" cy="116" r="38" fill="#000"/>
+        <circle cx="54" cy="116" r="36" fill="#000"/>
+        <circle cx="146" cy="116" r="36" fill="#000"/>
+      </mask>
+    </defs>
+
+    <!-- Tally: four rising days, the fifth stroke becomes the trend line -->
+    <symbol id="tally-mark" viewBox="0 0 200 200">
+      <g mask="url(#tally-cut)">
+        <rect x="44" y="110" width="18" height="56"/>
+        <rect x="74" y="90" width="18" height="76"/>
+        <rect x="104" y="70" width="18" height="96"/>
+        <rect x="134" y="50" width="18" height="116"/>
+      </g>
+      <path d="M34 154L166 76" stroke-width="14" style="stroke:var(--accent,currentColor)"/>
+    </symbol>
+
+    <!-- Vessel: kettlebell whose window is a man's V-taper -->
+    <symbol id="vessel-mark" viewBox="0 0 200 200">
+      <g mask="url(#vessel-cut)">
+        <path d="M46 110C38 70 50 28 100 28C150 28 162 70 154 110Z"/>
+        <circle cx="100" cy="124" r="60"/>
+      </g>
+    </symbol>
+
+    <!-- Phalanx: three overlapping hoplite shields, crossed spears, the lambda -->
+    <symbol id="phalanx-mark" viewBox="0 0 200 200">
+      <path d="M58 40L150 176M142 40L50 176" stroke="currentColor" stroke-width="4" mask="url(#phalanx-spear)"/>
+      <path d="M44 14L60 26L62 44L48 34ZM156 14L140 26L138 44L152 34Z"/>
+      <g mask="url(#phalanx-side)">
+        <circle cx="54" cy="116" r="32"/>
+        <circle cx="146" cy="116" r="32"/>
+      </g>
+      <circle cx="100" cy="116" r="35" mask="url(#phalanx-mid)"/>
+    </symbol>
+  </svg>
+
+  <!-- NAV -->
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-void/70 backdrop-blur-md">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-8">
+      <a href="#top" class="flex items-center gap-3">
+        <svg viewBox="0 0 200 200" class="h-7 w-7" aria-hidden="true">
+          <path d="M64 40h72M64 160h72M72 48h56l-28 52 28 52H72l28-52z" fill="none" stroke="#C9A45C" stroke-width="8" stroke-linejoin="miter"/>
+        </svg>
+        <span class="text-[11px] font-medium uppercase tracking-brutal text-bone">Essam</span>
+      </a>
+      <div class="hidden items-center gap-10 text-[11px] uppercase tracking-[0.25em] text-ash md:flex">
+        <a href="#work" class="transition hover:text-bone">Work</a>
+        <a href="#why" class="transition hover:text-bone">Why me</a>
+        <a href="#process" class="transition hover:text-bone">Process</a>
+      </div>
+      <a href="#contact" class="border border-gold/60 px-4 py-2 text-[11px] font-medium uppercase tracking-[0.25em] text-gold transition hover:bg-gold hover:text-void">
+        Start
+      </a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="relative flex min-h-[100svh] items-center overflow-hidden px-4 pt-28 pb-20 sm:px-8">
+      <!-- Background: giant ghost hourglass + light -->
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="absolute left-1/2 top-1/3 h-[60vmax] w-[60vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/[0.07] blur-[120px]"></div>
+        <svg viewBox="0 0 200 200" class="absolute -right-[18vmax] top-1/2 h-[90vmax] w-[90vmax] -translate-y-1/2 opacity-[0.05]">
+          <path d="M64 40h72M64 160h72M72 48h56l-28 52 28 52H72l28-52z" fill="none" stroke="#C9A45C" stroke-width="0.6"/>
+        </svg>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-7xl">
+        <p class="reveal mb-8 flex items-center gap-4 text-[11px] uppercase tracking-brutal text-gold">
+          <span class="h-px w-10 bg-gold"></span>
+          Prepared for Hamza Yacoubi
+        </p>
+
+        <h1 class="reveal font-serif text-[clamp(2.9rem,8.5vw,8.5rem)] font-medium leading-[0.92] tracking-tight">
+          Your message is forged<br class="hidden sm:block" />
+          in discipline.<br />
+          <span class="gold-text italic">Your brand should look like it.</span>
+        </h1>
+
+        <div class="reveal mt-12 grid gap-10 md:grid-cols-[1.2fr_1fr] md:items-end">
+          <p class="max-w-xl text-lg font-light leading-relaxed text-bone/75">
+            I design logos and identities for self-improvement brands. Marks that carry purpose,
+            command respect in half a second, and still hold their weight ten years from now.
+          </p>
+          <div class="flex flex-wrap gap-4 md:justify-end">
+            <a href="#work" class="group inline-flex items-center gap-3 bg-gold px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-void transition hover:bg-gold-soft">
+              See the work
+              <span class="transition group-hover:translate-x-1">→</span>
+            </a>
+            <a href="#contact" class="inline-flex items-center border border-bone/20 px-7 py-4 text-[11px] font-medium uppercase tracking-[0.25em] text-bone transition hover:border-bone">
+              Build the brand
+            </a>
+          </div>
+        </div>
+
+        <!-- Principles strip -->
+        <div class="reveal mt-24 grid grid-cols-1 border-t border-white/10 sm:grid-cols-3">
+          <div class="border-b border-white/10 py-6 sm:border-b-0 sm:border-r sm:pr-8">
+            <p class="font-serif text-2xl text-bone">Minimal.</p>
+            <p class="mt-1 text-sm text-ash">Nothing stays that hasn't earned its place.</p>
+          </div>
+          <div class="border-b border-white/10 py-6 sm:border-b-0 sm:border-r sm:px-8">
+            <p class="font-serif text-2xl text-bone">Timeless.</p>
+            <p class="mt-1 text-sm text-ash">Built to outlast trends, not chase them.</p>
+          </div>
+          <div class="py-6 sm:pl-8">
+            <p class="font-serif text-2xl text-bone">Masculine.</p>
+            <p class="mt-1 text-sm text-ash">Weight, edge and restraint, in that order.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="hairline mx-auto max-w-7xl"></div>
+
+    <!-- WORK -->
+    <section id="work" class="px-4 py-28 sm:px-8 sm:py-36">
+      <div class="mx-auto max-w-7xl">
+        <div class="reveal mb-16 grid gap-8 md:grid-cols-2 md:items-end">
+          <div>
+            <p class="mb-5 text-[11px] uppercase tracking-brutal text-gold">01 — The Work</p>
+            <h2 class="font-serif text-5xl font-medium leading-[0.95] sm:text-7xl">Three proposals.<br /><span class="italic text-bone/60">One idea each.</span></h2>
+          </div>
+          <p class="max-w-md text-base font-light leading-relaxed text-ash md:justify-self-end">
+            Concept identities, each built as a complete system. Every mark hides a second reading,
+            the detail people notice on the third look and never forget. No stock, no templates.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+
+          <!-- PROPOSAL 01 — TALLY -->
+          <article class="reveal card grid overflow-hidden border border-white/10 bg-coal lg:grid-cols-5">
+            <div class="stage relative flex min-h-[340px] items-center justify-center bg-[#E9E4D8] p-8 sm:p-10 lg:col-span-3 lg:min-h-[520px]">
+              <span class="absolute left-6 top-6 text-[10px] font-semibold uppercase tracking-[0.3em] text-[#0B0B0B]/50">Primary logo</span>
+              <svg class="stage-logo w-full max-w-[540px]" viewBox="0 0 440 200" role="img" aria-label="Tally logo">
+                <use href="#tally-mark" x="0" y="20" width="160" height="160" fill="#0B0B0B" style="--accent:#E2552B" />
+                <text x="168" y="124" font-family="Space Grotesk" font-weight="700" font-size="86" letter-spacing="-3" fill="#0B0B0B">TALLY</text>
+                <text x="172" y="152" font-family="Space Mono" font-size="12" letter-spacing="2" fill="#0B0B0B" fill-opacity=".65">DISCIPLINE, COUNTED.</text>
+              </svg>
+            </div>
+            <div class="flex flex-col p-8 sm:p-10 lg:col-span-2">
+              <p class="text-[10px] uppercase tracking-[0.3em] text-gold">Proposal 01 · Data brutalism</p>
+              <h3 class="mt-4 font-serif text-4xl">Tally</h3>
+              <p class="mt-1 text-[11px] uppercase tracking-[0.25em] text-ash">Discipline tracking app</p>
+              <p class="mt-6 font-light leading-relaxed text-bone/75">
+                Prisoners count days with tally marks. Disciplined men count reps. Here each stroke stands
+                taller than the last, and the fifth, the strike that closes the week, becomes a rising trend line.
+              </p>
+              <div class="mt-8 flex items-center gap-3">
+                <svg viewBox="0 0 64 64" class="h-14 w-14" aria-label="App icon"><rect width="64" height="64" rx="14" fill="#0B0B0B"/><use href="#tally-mark" x="10" y="10" width="44" height="44" fill="#E9E4D8" style="--accent:#E2552B"/></svg>
+                <svg viewBox="0 0 64 64" class="h-14 w-14" aria-label="Inverse mark"><rect width="64" height="64" fill="#E2552B"/><use href="#tally-mark" x="10" y="10" width="44" height="44" fill="#0B0B0B" style="--accent:#E9E4D8"/></svg>
+                <svg viewBox="0 0 64 64" class="h-14 w-14" aria-label="Favicon size"><rect width="64" height="64" fill="#E9E4D8"/><use href="#tally-mark" x="22" y="22" width="20" height="20" fill="#0B0B0B" style="--accent:#E2552B"/></svg>
+              </div>
+              <div class="mt-auto pt-8">
+                <div class="flex gap-2">
+                  <div class="flex-1"><div class="h-10 border border-white/10 bg-[#E9E4D8]"></div><p class="mt-2 text-[10px] uppercase tracking-[0.15em] text-ash">Bone #E9E4D8</p></div>
+                  <div class="flex-1"><div class="h-10 border border-white/10 bg-[#0B0B0B]"></div><p class="mt-2 text-[10px] uppercase tracking-[0.15em] text-ash">Ink #0B0B0B</p></div>
+                  <div class="flex-1"><div class="h-10 bg-[#E2552B]"></div><p class="mt-2 text-[10px] uppercase tracking-[0.15em] text-ash">Ember #E2552B</p></div>
+                </div>
+                <p class="mt-5 text-[11px] uppercase tracking-[0.2em] text-ash">Type · <span class="text-bone">Space Grotesk Bold · Space Mono</span></p>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROPOSAL 02 — VESSEL -->
+          <article class="reveal card grid overflow-hidden border border-white/10 bg-coal lg:grid-cols-5">
+            <div class="stage relative flex min-h-[340px] items-center justify-center bg-[radial-gradient(circle_at_50%_40%,#1d1a14,#050505_70%)] p-8 sm:p-10 lg:col-span-3 lg:min-h-[520px]">
+              <span class="absolute left-6 top-6 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/60">Primary logo</span>
+              <svg class="stage-logo w-full max-w-[400px]" viewBox="0 0 400 262" role="img" aria-label="Vessel logo">
+                <use href="#vessel-mark" x="112" y="-6" width="176" height="176" fill="url(#gold-foil-mark)" />
+                <text x="204" y="222" text-anchor="middle" font-family="Archivo" font-stretch="125%" font-weight="800" font-size="50" letter-spacing="8" fill="url(#gold-foil)">VESSEL</text>
+                <text x="203" y="252" text-anchor="middle" font-family="Archivo" font-stretch="125%" font-weight="400" font-size="10" letter-spacing="6" fill="#8E887D">PERFORMANCE NUTRITION</text>
+              </svg>
+            </div>
+            <div class="flex flex-col p-8 sm:p-10 lg:col-span-2">
+              <p class="text-[10px] uppercase tracking-[0.3em] text-gold">Proposal 02 · Iron luxury</p>
+              <h3 class="mt-4 font-serif text-4xl">Vessel</h3>
+              <p class="mt-1 text-[11px] uppercase tracking-[0.25em] text-ash">Premium supplements</p>
+              <p class="mt-6 font-light leading-relaxed text-bone/75">
+                Your body is the vessel. Look through the kettlebell's handle and you'll find a man's
+                V-taper: broad shoulders, narrow waist. You become what you lift. Gold foil on matte black,
+                made to sit on a shelf like a trophy.
+              </p>
+              <div class="mt-8 flex items-center gap-3">
+                <svg viewBox="0 0 64 64" class="h-14 w-14" aria-label="App icon"><rect width="64" height="64" rx="14" fill="#0A0A0A" stroke="#C9A45C" stroke-opacity=".3"/><use href="#vessel-mark" x="12" y="10" width="40" height="40" fill="url(#gold-foil-mark)"/></svg>
+                <svg viewBox="0 0 64 64" class="h-14 w-14" aria-label="Inverse mark"><rect width="64" height="64" fill="#C9A45C"/><use href="#vessel-mark" x="12" y="10" width="40" height="40" fill="#0A0A0A"/></svg>
+                <svg viewBox="0 0 64 64" class="h-14 w-14" aria-label="Wordmark"><rect width="64" height="64" fill="#141210"/><text x="33" y="36" text-anchor="middle" font-family="Archivo" font-stretch="125%" font-weight="800" font-size="9" letter-spacing="1.2" fill="#C9A45C">VESSEL</text></svg>
+              </div>
+              <div class="mt-auto pt-8">
+                <div class="flex gap-2">
+                  <div class="flex-1"><div class="h-10 border border-white/10 bg-[#0A0A0A]"></div><p class="mt-2 text-[10px] uppercase tracking-[0.15em] text-ash">Matte #0A0A0A</p></div>
+                  <div class="flex-1"><div class="h-10 bg-gradient-to-b from-[#F1DDB0] via-[#C9A45C] to-[#8C6E36]"></div><p class="mt-2 text-[10px] uppercase tracking-[0.15em] text-ash">Foil #C9A45C</p></div>
+                  <div class="flex-1"><div class="h-10 bg-[#8E887D]"></div><p class="mt-2 text-[10px] uppercase tracking-[0.15em] text-ash">Stone #8E887D</p></div>
+                </div>
+                <p class="mt-5 text-[11px] uppercase tracking-[0.2em] text-ash">Type · <span class="text-bone">Archivo Expanded ExtraBold</span></p>
+              </div>
+            </div>
+          </article>
+
+          <!-- PROPOSAL 03 — PHALANX -->
+          <article class="reveal card grid overflow-hidden border border-white/10 bg-coal lg:grid-cols-5">
+            <div class="stage relative flex min-h-[340px] items-center justify-center bg-[#4A1212] p-8 sm:p-10 lg:col-span-3 lg:min-h-[520px]">
+              <span class="absolute left-6 top-6 text-[10px] font-semibold uppercase tracking-[0.3em] text-[#EFE6D2]/50">Primary crest</span>
+              <svg class="stage-logo w-full max-w-[400px]" viewBox="0 0 400 306" role="img" aria-label="Phalanx crest">
+                <use href="#phalanx-mark" x="85" y="-10" width="230" height="230" fill="#EFE6D2" style="color:#EFE6D2" />
+                <text x="205" y="262" text-anchor="middle" font-family="Cinzel" font-weight="700" font-size="40" letter-spacing="10" fill="#EFE6D2">PHALANX</text>
+                <text x="203" y="292" text-anchor="middle" font-family="Inter" font-weight="500" font-size="10" letter-spacing="6" fill="#EFE6D2" fill-opacity=".6">NO MAN TRAINS ALONE</text>
+              </svg>
+            </div>
+            <div class="flex flex-col p-8 sm:p-10 lg:col-span-2">
+              <p class="text-[10px] uppercase tracking-[0.3em] text-gold">Proposal 03 · Spartan heritage</p>
+              <h3 class="mt-4 font-serif text-4xl">Phalanx</h3>
+              <p class="mt-1 text-[11px] uppercase tracking-[0.25em] text-ash">Brotherhood &amp; training community</p>
+              <p class="mt-6 font-light leading-relaxed text-bone/75">
+                In a phalanx, your shield protects the man beside you. Three locked shields, crossed spears and
+                the lambda Spartans painted on theirs: a crest that says no man trains alone. Built for patches,
+                hoodies and challenge coins.
+              </p>
+              <div class="mt-8 flex items-center gap-3">
+                <svg viewBox="0 0 64 64" class="h-14 w-14" aria-label="App icon"><rect width="64" height="64" rx="14" fill="#4A1212"/><use href="#phalanx-mark" x="6" y="4" width="52" height="52" fill="#EFE6D2" style="color:#EFE6D2"/></svg>
+                <svg viewBox="0 0 64 64" class="h-14 w-14" aria-label="Patch"><circle cx="32" cy="32" r="31" fill="#EFE6D2"/><use href="#phalanx-mark" x="9" y="7" width="46" height="46" fill="#4A1212" style="color:#4A1212"/></svg>
+                <svg viewBox="0 0 64 64" class="h-14 w-14" aria-label="Wordmark"><rect width="64" height="64" fill="#1A1916"/><text x="33" y="36" text-anchor="middle" font-family="Cinzel" font-weight="700" font-size="9" letter-spacing="1.5" fill="#EFE6D2">PHALANX</text></svg>
+              </div>
+              <div class="mt-auto pt-8">
+                <div class="flex gap-2">
+                  <div class="flex-1"><div class="h-10 bg-[#4A1212]"></div><p class="mt-2 text-[10px] uppercase tracking-[0.15em] text-ash">Crimson #4A1212</p></div>
+                  <div class="flex-1"><div class="h-10 bg-[#EFE6D2]"></div><p class="mt-2 text-[10px] uppercase tracking-[0.15em] text-ash">Parchment #EFE6D2</p></div>
+                  <div class="flex-1"><div class="h-10 border border-white/10 bg-[#1A1916]"></div><p class="mt-2 text-[10px] uppercase tracking-[0.15em] text-ash">Iron #1A1916</p></div>
+                </div>
+                <p class="mt-5 text-[11px] uppercase tracking-[0.2em] text-ash">Type · <span class="text-bone">Cinzel Bold · Inter</span></p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFESTO BAND -->
+    <section class="relative overflow-hidden border-y border-white/10 bg-coal px-4 py-24 sm:px-8 sm:py-32">
+      <div class="reveal mx-auto max-w-5xl text-center">
+        <p class="font-serif text-[clamp(2rem,4.6vw,4.2rem)] font-medium leading-[1.08]">
+          “A brand isn’t what you say.<br class="hidden sm:block" />
+          It’s what people <span class="gold-text italic">feel</span> in the half-second
+          before they read a word.”
+        </p>
+        <p class="mt-10 text-[11px] uppercase tracking-brutal text-ash">The principle behind every mark I draw</p>
+      </div>
+    </section>
+
+    <!-- WHY ME -->
+    <section id="why" class="px-4 py-28 sm:px-8 sm:py-36">
+      <div class="mx-auto max-w-7xl">
+        <div class="reveal mb-20 max-w-3xl">
+          <p class="mb-5 text-[11px] uppercase tracking-brutal text-gold">02 — Why me</p>
+          <h2 class="font-serif text-5xl font-medium leading-[0.95] sm:text-7xl">
+            I don’t design <em class="text-bone/60">at</em> your audience.<br />
+            I design <span class="gold-text italic">for the tribe.</span>
+          </h2>
+        </div>
+
+        <div class="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
+          <div class="reveal bg-void p-10 sm:p-14">
+            <p class="font-serif text-6xl text-gold/40">I</p>
+            <h3 class="mt-6 text-xl font-medium text-bone">I speak the language.</h3>
+            <p class="mt-4 font-light leading-relaxed text-ash">
+              Hard work, purpose, brotherhood. I know what those words mean to a nineteen-year-old who
+              just decided to change his life. A great brand says them without ever having to write them.
+            </p>
+          </div>
+          <div class="reveal bg-void p-10 sm:p-14">
+            <p class="font-serif text-6xl text-gold/40">II</p>
+            <h3 class="mt-6 text-xl font-medium text-bone">Aesthetics is a discipline.</h3>
+            <p class="mt-4 font-light leading-relaxed text-ash">
+              The rules you apply to the body apply to a logo. Cut the excess. Master the fundamentals.
+              Let proportion do the talking. Nothing decorative survives my process.
+            </p>
+          </div>
+          <div class="reveal bg-void p-10 sm:p-14">
+            <p class="font-serif text-6xl text-gold/40">III</p>
+            <h3 class="mt-6 text-xl font-medium text-bone">Built for every surface.</h3>
+            <p class="mt-4 font-light leading-relaxed text-ash">
+              Merch, app icon, thumbnail, gym wall, book spine. Each mark is tested at 16 pixels and at
+              16 metres, in gold foil and in one-colour embroidery, before it reaches you.
+            </p>
+          </div>
+          <div class="reveal bg-void p-10 sm:p-14">
+            <p class="font-serif text-6xl text-gold/40">IV</p>
+            <h3 class="mt-6 text-xl font-medium text-bone">No ego. Just reps.</h3>
+            <p class="mt-4 font-light leading-relaxed text-ash">
+              Clear process, fast iterations, honest feedback both ways. You get options, the reasoning
+              behind them and production-ready files. No excuses, no disappearing acts.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process" class="border-t border-white/10 px-4 py-28 sm:px-8 sm:py-32">
+      <div class="mx-auto max-w-7xl">
+        <div class="reveal mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p class="mb-5 text-[11px] uppercase tracking-brutal text-gold">03 — The Process</p>
+            <h2 class="font-serif text-5xl font-medium leading-[0.95] sm:text-6xl">Trained like a programme.</h2>
+          </div>
+          <p class="max-w-sm font-light text-ash">Four phases. Every one ends with something you can see, judge and sign off.</p>
+        </div>
+
+        <ol class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <li class="reveal border-t border-gold/40 pt-6">
+            <p class="text-[11px] uppercase tracking-[0.25em] text-gold">Phase 01</p>
+            <h3 class="mt-3 font-serif text-3xl">Purpose</h3>
+            <p class="mt-3 text-sm font-light leading-relaxed text-ash">We define who the brand serves, what it stands against and what it must make people feel.</p>
+          </li>
+          <li class="reveal border-t border-gold/40 pt-6">
+            <p class="text-[11px] uppercase tracking-[0.25em] text-gold">Phase 02</p>
+            <h3 class="mt-3 font-serif text-3xl">Forge</h3>
+            <p class="mt-3 text-sm font-light leading-relaxed text-ash">Dozens of sketches, a handful of directions. Only the strongest three reach you.</p>
+          </li>
+          <li class="reveal border-t border-gold/40 pt-6">
+            <p class="text-[11px] uppercase tracking-[0.25em] text-gold">Phase 03</p>
+            <h3 class="mt-3 font-serif text-3xl">Refine</h3>
+            <p class="mt-3 text-sm font-light leading-relaxed text-ash">One direction, pushed until every angle, weight and gap is deliberate.</p>
+          </li>
+          <li class="reveal border-t border-gold/40 pt-6">
+            <p class="text-[11px] uppercase tracking-[0.25em] text-gold">Phase 04</p>
+            <h3 class="mt-3 font-serif text-3xl">Deliver</h3>
+            <p class="mt-3 text-sm font-light leading-relaxed text-ash">Full file system, colour and type rules, and mockups on the surfaces your audience actually sees.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact" class="relative overflow-hidden border-t border-white/10 px-4 py-32 sm:px-8 sm:py-44">
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="absolute bottom-0 left-1/2 h-[50vmax] w-[50vmax] -translate-x-1/2 translate-y-1/2 rounded-full bg-gold/[0.10] blur-[120px]"></div>
+      </div>
+      <div class="reveal relative mx-auto max-w-5xl text-center">
+        <svg viewBox="0 0 200 200" class="mx-auto mb-12 h-14 w-14" aria-hidden="true">
+          <path d="M52 34H148M52 166H148" stroke="#C9A45C" stroke-width="7" fill="none"/>
+          <path d="M64 46H136L108 100L136 154H64L92 100Z" stroke="#C9A45C" stroke-width="4" fill="none"/>
+          <path d="M76 148H124L100 132Z" fill="#C9A45C"/>
+        </svg>
+        <h2 class="font-serif text-[clamp(3rem,8vw,7.5rem)] font-medium leading-[0.92]">
+          The work<br /><span class="gold-text italic">starts now.</span>
+        </h2>
+        <p class="mx-auto mt-10 max-w-xl text-lg font-light leading-relaxed text-bone/75">
+          Your audience already trusts your message. Let’s give it a symbol worthy of it.
+          One conversation, a clear plan, then the reps.
+        </p>
+        <div class="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a href="mailto:amsimnaessam@gmail.com?subject=Brand%20identity%20%E2%80%94%20Let%27s%20build"
+             class="group inline-flex items-center gap-3 bg-gold px-10 py-5 text-[12px] font-semibold uppercase tracking-[0.25em] text-void transition hover:bg-gold-soft">
+            Let’s build your brand
+            <span class="transition group-hover:translate-x-1">→</span>
+          </a>
+          <a href="mailto:amsimnaessam@gmail.com" class="text-sm text-ash underline decoration-gold/40 underline-offset-8 transition hover:text-bone">
+            amsimnaessam@gmail.com
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 px-4 py-10 sm:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-[11px] uppercase tracking-[0.25em] text-ash sm:flex-row">
+      <p>© 2026 Essam — Identity Design</p>
+      <p>Hand-built in code. No templates.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Reveal sections (and draw the logos) as they scroll into view
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
